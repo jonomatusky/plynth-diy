@@ -133,7 +133,7 @@ def spotify_search(album_guess):
 
 
 # All are the same button, set at different duractions
-btn = Button(5, hold_time=2)
+btn = Button(3, hold_time=2)
 btn.when_pressed = plynth_scan
 btn.when_held = plynth_stop
 
