@@ -23,6 +23,8 @@ from google.cloud.vision import types
 from mpd import MPDClient
 import spotipy
 
+client = MPDClient()
+
 # configures the camera. Shutter speed is high to account for low lighting. Since the album is stationary, this usually isn't an issue
 camera = PiCamera()
 camera.resolution = (1024, 768)
@@ -39,8 +41,8 @@ current_scan = 0
 def plynth_scan():
 
     # stops the track that's currently playing and starts the light blinking
-    MPDClient.stop()
-    MPDClient.clear()
+    client.stop()
+    client.clear()
     led.blink(on_time=0.5, off_time=0.5, fade_in_time=0.5, fade_out_time=0.5)
 
     # Increments the scan counts and creates a 'scan id' for this scan
@@ -94,8 +96,8 @@ def plynth_scan():
 
         # Checks to make sure there aren't any more recent scans, then plays the album
         if scan_id == current_scan:
-            MPDClient.add(album_uri)
-            MPDClient.next()
+            client.add(album_uri)
+            client.next()
         else:
             plynth_stop()
     except Exception as e:
@@ -109,7 +111,7 @@ def plynth_scan():
 
 
 def plynth_stop():
-    MPDClient.stop()
+    client.stop()
     led.blink(on_time=0.2, off_time=0.2)
     sleep(2)
     led.off

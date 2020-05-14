@@ -1,0 +1,112 @@
+https://docs.google.com/spreadsheets/d/18rwhjeKL2P9sVbi25C6__g5XtJo2MIaCnHzb-6uw1c8/edit?usp=drive_web&ouid=116613500840005313737
+
+Useful commands:
+$ ssh pi@raspberrypi.local
+$ ssh pi@<IP>
+$ ssh pi@<hostname>.local
+$ sudo nano <filename>
+$ sudo shutdown -h now
+$ pm2 list
+
+Copy to computer
+$ scp pi@raspberrypi.local:<filename> .
+
+Copy from computer
+$ scp <file> pi@raspberrypi.local:
+$ scp index.js pi@plynthv1-2.local:plynth
+
+Copy directory from computer
+$ scp -r <folder> pi@raspberrypi.local:
+
+Installation Raspian and SSH: https://desertbot.io/blog/headless-raspberry-pi-3-bplus-ssh-wifi-setup
+Download Raspian Lite: https://www.raspberrypi.org/downloads/raspbian/
+Flash Raspian image to SD card using Etcher
+Create an ssh file with no file extension in the boot partition of the SD card
+Create a file named “wpa_supplicant.conf” and paste the following information: 
+
+country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="NETWORK-NAME"
+    psk="NETWORK-PASSWORD"
+}
+
+Plug in Raspberry Pi, insert SD card into your Pi and boot (could take up to 90 seconds)
+Get the IP address of the Raspberry Pi from WiFi Router: https://docs.google.com/document/d/1xG87xeOQS3Ci1f5uPHIV-P2xGnXGbQIljGD2AJh-CCs/edit
+SSH into Raspberry Pi (see above)
+Raspberry Pi’s standard password is raspberry
+To change hostname: sudo nano /etc/hostname
+To change password: sudo raspi-config
+Get updates
+$ sudo apt-get update
+$ sudo apt-get dist-upgrade
+
+Installing and Configuring Mopidy
+Install Mopidy: https://docs.mopidy.com/en/latest/installation/debian/#debian-install
+To install Mopidy, run the following commands:
+$ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+$ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/stretch.list
+$ sudo apt-get install mopidy
+Test sound output:
+$ aplay /usr/share/sounds/alsa/Front_Center.wav
+Install command line controls
+$ sudo apt install mpc
+Run mopidy as a service (start on boot):
+$ sudo systemctl enable mopidy
+
+Installing Spotify: https://github.com/mopidy/mopidy-spotify
+To install mopidy-spotify, run the following command:
+$ sudo apt-get install mopidy-spotify
+Get API keys for Spotify: https://www.mopidy.com/authenticate/#spotify
+Add the [spotify] and [mpd] values to /etc/mopidy/mopidy.conf (replacing the API values): https://drive.google.com/open?id=1_yb7n6_m93xIeBx87QMtcWtOMp3oTB6X
+Test Spotify:
+$ mpc clear; mpc search title "be stiff" | mpc add; mpc play
+
+Configuring the camera
+Attach camera (blue goes with black)
+Enable camera module (Interfacing Options) and reboot system automatically:
+$ sudo raspi-config
+Test camera:
+$ sudo raspistill -o photo.jpg
+To check photo, from computer terminal:
+$ scp pi@<pi-name>.local:photo.jpg .
+
+Set up API Integration: 
+Get Google Vision API key: https://console.cloud.google.com/apis/credentials?project=player-228301
+Get Spotify credentials: https://developer.spotify.com/dashboard/applications
+Open /etc/profile and add Google Vision API key AND Spotify API keys:
+export GOOGLE_CLOUD_VISION_API_KEY=YOUR_API_KEY
+export SPOTIFY_CLIENT_ID=CLIENT_ID
+export SPOTIFY_CLIENT_SECRET=CLIENT_SECRET
+
+Install Plynth application
+Install Node.js:
+$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
+Navigate to the directory where the plynth application file is located, then use:
+$ scp -r <folder> pi@raspberrypi.local:
+Install dependencies:
+$ npm install
+At this point, the app will work if you run the index.js file:
+$ node index.js
+
+Install Git and Dropbox
+Install git:
+$ sudo apt-get install git
+$ git config --global user.name "Jono Matusky"
+$ git config --global user.email jono.matusky@gmail.com
+Download dropbox uploader: https://github.com/andreafabrizi/Dropbox-Uploader
+$ git clone https://github.com/andreafabrizi/Dropbox-Uploader.git
+Install uploader:
+$ sudo chmod +x Dropbox-Uploader/dropbox_uploader.sh
+$ Dropbox-Uploader/dropbox_uploader.sh
+Follow instructions to get the token
+
+Install PM2 to run application at boot:
+Install:
+$ sudo npm install -g pm2
+Run the program with pm2 then save to startup:
+$ pm2 start index.js
+$ pm2 save

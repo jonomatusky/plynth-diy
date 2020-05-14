@@ -1,0 +1,108 @@
+
+Notes: 
+
+ssh pi@raspberrypi.local
+
+Undoing pm2 startup at boot
+pm2 delete index
+
+To redo:
+$ pm2 start index.js
+$ pm2 save
+
+Navigate to the directory where the plynth application file is located, then use:
+$ scp -r <folder> pi@raspberrypi.local:
+
+$ scp plynth.py pi@plynth-4.local:
+
+
+
+Install gpiozero
+Install picamera
+https://picamera.readthedocs.io/en/release-1.13/install.html
+$ sudo apt-get install python-picamera python3-picamera
+
+Install google cloud
+sudo pip3 install google-cloud-vision
+
+Install mpd
+sudo apt-get install python-mpd
+
+sudo pip3 install python-mpd2
+
+sudo apt-get install mpd mpc
+
+Install spotipy
+pip3 install spotipy --upgrade
+
+https://kushaldas.in/posts/setting-up-a-home-music-system-with-raspberry-pi3-and-mpd.html
+
+Fixed button error (using button for multiple purposes)
+
+
+Install camera
+Add plynth python program
+Install pip
+$ sudo 
+Install Google cloud vision:
+$ sudo pip install google-cloud-vision
+Install Mopidy (instructions: https://docs.mopidy.com/en/latest/installation/raspberrypi/)
+$ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+$ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list
+$ sudo apt update
+$ sudo apt install mopidy
+Install spotipy
+$ sudo pip install spotipy
+
+Installing and Configuring Mopidy
+Install Mopidy: https://docs.mopidy.com/en/latest/installation/debian/#debian-install
+To install Mopidy, run the following commands:
+$ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+$ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/stretch.list
+$ sudo apt-get install mopidy
+Test sound output:
+$ aplay /usr/share/sounds/alsa/Front_Center.wav
+Install command line controls
+$ sudo apt install mpc
+Run mopidy as a service (start on boot):
+$ sudo systemctl enable mopidy
+
+Installing Spotify: https://github.com/mopidy/mopidy-spotify
+To install mopidy-spotify, run the following command:
+$ sudo apt-get install mopidy-spotify
+Get API keys for Spotify: https://www.mopidy.com/authenticate/#spotify
+Add the [spotify] and [mpd] values to /etc/mopidy/mopidy.conf (replacing the API values): https://drive.google.com/open?id=1_yb7n6_m93xIeBx87QMtcWtOMp3oTB6X
+Test Spotify:
+$ mpc clear; mpc search title "be stiff" | mpc add; mpc play
+
+Google API: 
+Use Google Cloud Vision On the Raspberry Pi and GoPiGo
+
+Physical Computing with Python - Making a switch
+
+Getting started with the Camera Module - Introduction
+
+Set Up Google Vision
+https://cloud.google.com/vision/docs/libraries#client-libraries-install-python
+Get Google Vision Service Account Key: https://console.cloud.google.com/apis/credentials/serviceaccountkey
+Open /etc/profile and add Google Vision API key AND Spotify API keys:
+export GOOGLE_APPLICATION_CREDENTIALS="[PATH]"
+
+Setting up Spotipy
+export SPOTIFY_CLIENT_ID=CLIENT_ID
+export SPOTIFY_CLIENT_SECRET=CLIENT_SECRET
+
+
+Install the music play demon (MPD)
+https://learn.adafruit.com/raspberry-pi-radio-player-with-touchscreen/installing-the-music-player-daemon
+$ sudo apt-get install python-mpd
+
+
+Turn on:
+https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md
+
+
+To do:
+Install python-MPD2
+Add spotify credentials
+Add spotify/mopidy credentials
